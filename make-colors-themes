@@ -46,6 +46,7 @@ install_theme() {
                 cp -r "Zukitwo-$color/" "$HOME/.themes"
             else
                 echo " system-wide..."
+                mkdir -p "$DESTDIR/usr/share/themes/"
                 cp -r "$PWD/Zukitwo-$color/" "$DESTDIR/usr/share/themes/"
             fi
         else
@@ -59,6 +60,7 @@ install_theme() {
         cp -r Zukitwo-*-Openbox/ "$HOME/.themes"
     else
         echo "Installing Xfwm themes system-wide..."
+        mkdir -p "$DESTDIR/usr/share/themes/"
         cp -r "$PWD"/Zukitwo-*-Xfwm/ "$DESTDIR/usr/share/themes/"
         echo "Installing Openbox themes system-wide..."
         cp -r "$PWD"/Zukitwo-*-Openbox/ "$DESTDIR/usr/share/themes/"
