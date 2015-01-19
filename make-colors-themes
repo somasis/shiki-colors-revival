@@ -1,0 +1,219 @@
+#!/bin/bash
+
+DESTDIR=${DESTDIR:-/}
+colors=(Brave Dust Human Illustrious Noble Wine Wise)
+properties=(bg fg base text selected_bg selected_fg tooltip_bg tooltip_fg frame inactive_frame menubar_bg menubar_fg menuitem_fg)
+
+common_bg=#d8d8d8
+common_fg=#101010
+common_base=#ffffff
+common_text=#1a1a1a
+common_menubar_bg=#212121
+common_menubar_fg=#cecece
+common_menuitem_fg=#ffffff
+Dust_menubar_bg=#27241F
+Brave_selected_bg=#729fcf
+Dust_selected_bg=#b49372
+Human_selected_bg=#f7a145
+Illustrious_selected_bg=#f08290
+Noble_selected_bg=#ad7fa8
+Wine_selected_bg=#de4e4e
+Wise_selected_bg=#97bf60
+common_selected_fg=#ffffff
+common_tooltip_bg=#f5f5b5
+common_tooltip_fg=#000000
+common_frame=#333333
+common_inactive_frame=#333333
+
+shopt -s globstar dotglob extglob
+
+#sed() {
+#    [[ "$debug" == true ]] && echo "sed $@"
+#    command sed "$@"
+#}
+
+debug() {
+    [[ "$debug" ]] && echo "$@"
+}
+
+install_theme() {
+    [[ ! -d "zuki_themes" ]] && update
+    for color in ${colors[@]};do
+        if [[ -d "Zukitwo-$color" ]];then
+            printf "Installing \"Zukitwo-$color\""
+            if [[ "$user_install" ]];then
+                printf "...\n"
+                cp -r "Zukitwo-$color/" "$HOME/.themes"
+            else
+                echo " system-wide..."
+                cp -r "$PWD/Zukitwo-$color/" "$DESTDIR/usr/share/themes/"
+            fi
+        else
+            generate_theme "$color"
+        fi
+    done
+    if [[ "$user_install" ]];then
+        echo "Installing Xfwm themes..."
+        cp -r Zukitwo-*-Xfwm/ "$HOME/.themes"
+        echo "Installing Openbox themes..."
+        cp -r Zukitwo-*-Openbox/ "$HOME/.themes"
+    else
+        echo "Installing Xfwm themes system-wide..."
+        cp -r "$PWD"/Zukitwo-*-Xfwm/ "$DESTDIR/usr/share/themes/"
+        echo "Installing Openbox themes system-wide..."
+        cp -r "$PWD"/Zukitwo-*-Openbox/ "$DESTDIR/usr/share/themes/"
+    fi
+    printf '\n'
+}
+
+uninstall_theme() {
+    printf "Uninstalling..."
+    for color in ${colors[@]};do
+        printf " \"Zukitwo-$color\""
+        rm -rf "$HOME/.themes/Zukitwo-$color/" "$DESTDIR/usr/share/themes/Zukitwo-$color/" 2>/dev/null >/dev/null
+    done
+    printf '\n\n\n'
+}
+
+fix_line_endings() {
+    printf "Correcting line endings..."
+    for file in $@;do
+        printf " \"$(basename $file)\""
+        sed -i.bak 's/\r//' "$file"
+    done
+    printf '\n\n'
+}
+
+patch() {
+    if [[ "$debug" ]];then
+        command patch --verbose "$@"
+    else
+        command patch "$@"
+    fi
+}
+
+patch_theme() {
+    echo "Patching zuki_themes..."
+    echo "If these files were already patched before, you'll see errors. Ignore them."
+    cd zuki_themes
+    echo "Resetting zuki_themes git repo..."
+    git reset --hard HEAD
+    cd "$OLDPWD"
+    fix_line_endings "./zuki_themes/Zukitwo/gtk-2.0/widgets/panel.rc" "./zuki_themes/Zukitwo/gtk-2.0/gtkrc" "./Zukitwo-colors-common/patches/panel.rc.patch" "./Zukitwo-colors-common/patches/enable-dark-menubar.patch"
+    yes | patch ./zuki_themes/Zukitwo/gtk-2.0/widgets/panel.rc <./Zukitwo-colors-common/patches/panel.rc.patch
+    yes | patch ./zuki_themes/Zukitwo/gtk-2.0/gtkrc <./Zukitwo-colors-common/patches/enable-dark-menubar.patch
+    OLDIFS="$IFS"
+    IFS=$'\n'
+    for file in $(find ./zuki_themes/ -type f);do
+        sed -i 's/gtk_color_scheme = ./gtk_color_scheme = \"menubar_bg_color:#ffffff\\nmenubar_fg_color:#ffffff\\nmenuitem_fg_color:#ffffff\\n/g' "$file"
+    done
+    printf "\n"
+    IFS="$OLDIFS"
+    OLDIFS=
+}
+
+generate_theme() {
+    if [[ ! -d "zuki_themes/" ]];then
+        echo "zuki_themes does not exist. You need to run \`./make-color-themes update\`."
+        exit 1
+    fi
+    color="$1"
+    cp -r "zuki_themes/Zukitwo" "Zukitwo-$color"
+    cd "Zukitwo-$color"
+    echo "Creating \"Zukitwo-$color\"..."
+    file_list=$(find . -type f | grep -v 'make-colors-themes')
+    for property in ${properties[@]};do
+        property_var_name=\$${color}_$property
+        property_var_contents=$(echo \$${color}_bg)
+        if [[ -z "$(eval echo $property_var_name)" ]];then
+            debug "    There is no \"$property_var_name\", so we'll just use \"\$common_$property\""
+            property_var_contents=$(eval echo \$common_$property)
+        else
+            debug "    Using \"$property_var_name\""
+            property_var_contents="$(eval echo $property_var_name)"
+        fi
+
+        OLDIFS="$IFS"
+        IFS=$'\n'
+        property_var_contents=$(echo "$property_var_contents" | sed 's/\#/\\\#/g')
+        for file in ${file_list};do
+            sed -i "s/${property}_color:\#[0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F]/${property}_color:$property_var_contents/g;s/theme_${property}_color \#[0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F]/theme_${property}_color $property_var_contents/g;s/Zukitwo/Zukitwo-$color/g;s/define-color theme_${property}_color .*\;/define-color theme_${property}_color $property_var_contents\;/g" "$file" 2>/dev/null >/dev/null
+        done
+        IFS="$OLDIFS"
+    done
+    #rm -rf "xfwm4"
+    cp -r ../Zukitwo-colors-common/* ./
+    cd "$OLDPWD"
+}
+
+update() {
+    if [[ ! -d "zuki_themes/.git" ]];then
+        git clone https://github.com/lassekongo83/zuki_themes.git
+    fi
+    cd zuki_themes
+    echo "Resetting git tree of zuki_themes..."
+    git reset --hard HEAD
+    echo "Getting latest revision of zuki_themes..."
+    git pull
+    cd "$OLDPWD"
+    printf '\n\n'
+}
+
+clean() {
+    printf "Removing..."
+    for color in ${colors[@]};do
+        printf " \"Zukitwo-$color/\""
+        rm -rf "Zukitwo-$color/"
+    done
+    printf '\n\n'
+}
+
+help() {
+    echo "make-colors-themes - create Zukitwo-colors themes"
+    echo "usage: make-colors-themes [actions]"
+    echo
+    echo "arguments:"
+    echo "  generate        - just generate the theme"
+    echo "  install         - install the theme system-wide"
+    echo "  user_install    - install the theme in your ~/.themes directory"
+    echo "  uninstall       - uninstall the theme"
+    echo "  clean           - delete old generated files"
+    echo "  patch           - patch zuki_themes file"
+    echo "  update          - update the local copy of the zuki_themes repo"
+    echo "  debug           - activate debug messages"
+    echo "  help            - display this message"
+    echo
+    echo "edit the \$colors variables in the script if you'd like to only generate certain colors"
+    echo
+    exit
+}
+
+command_not_found() {
+    echo "make-colors-themes: \`$command\` is not a valid command"
+}
+
+generate_themes() {
+    generate=true
+    for theme in ${colors[@]};do
+        generate_theme $theme
+    done
+    printf "Now, type \`$0 install\` or \`$0 user_install\` to install.\n"
+}
+
+if [[ "$1" ]];then
+    while [[ "$1" ]];do
+        [[ "$1" == "generate" ]] && generate=true && generate_themes
+        [[ "$1" == "install" ]] && install=true && install_theme
+        [[ "$1" == "user-install" ]] && user_install=1 && install_theme
+        [[ "$1" == "update" ]] && update=true && update
+        [[ "$1" == "uninstall" ]] && uninstall=true && uninstall_theme
+        [[ "$1" == "clean" ]] && clean=true clean
+        [[ "$1" == "patch" ]] && patch=true && patch_theme
+        [[ "$1" == "debug" ]] && debug=true
+        [[ "$1" == "help" ]] && help=true && help
+        [[ ! "$help" && ! "$install" && ! "$user_install" && ! "$update" && ! "$uninstall" && ! "$clean" && ! "$patch" && ! "$debug" && ! "$generate" ]] && command_not_found=1 && command="$1"
+        shift
+    done
+else
+    help
+fi
