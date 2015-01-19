@@ -1,0 +1,3 @@
+[submodule "zuki-themes"]
+	path = zuki-themes
+	url = https://github.com/lassekongo83/zuki-themes.git

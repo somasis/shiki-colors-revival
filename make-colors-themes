@@ -37,7 +37,7 @@ debug() {
 }
 
 install_theme() {
-    [[ ! -d "zuki_themes" ]] && update
+    [[ ! -d "zuki-themes" ]] && update
     for color in ${colors[@]};do
         if [[ -d "Zukitwo-$color" ]];then
             printf "Installing \"Zukitwo-$color\""
@@ -93,18 +93,18 @@ patch() {
 }
 
 patch_theme() {
-    echo "Patching zuki_themes..."
+    echo "Patching zuki-themes..."
     echo "If these files were already patched before, you'll see errors. Ignore them."
-    cd zuki_themes
-    echo "Resetting zuki_themes git repo..."
+    cd zuki-themes
+    echo "Resetting zuki-themes git repo..."
     git reset --hard HEAD
     cd "$OLDPWD"
-    fix_line_endings "./zuki_themes/Zukitwo/gtk-2.0/widgets/panel.rc" "./zuki_themes/Zukitwo/gtk-2.0/gtkrc" "./Zukitwo-colors-common/patches/panel.rc.patch" "./Zukitwo-colors-common/patches/enable-dark-menubar.patch"
-    yes | patch ./zuki_themes/Zukitwo/gtk-2.0/widgets/panel.rc <./Zukitwo-colors-common/patches/panel.rc.patch
-    yes | patch ./zuki_themes/Zukitwo/gtk-2.0/gtkrc <./Zukitwo-colors-common/patches/enable-dark-menubar.patch
+    fix_line_endings "./zuki-themes/Zukitwo/gtk-2.0/widgets/panel.rc" "./zuki-themes/Zukitwo/gtk-2.0/gtkrc" "./Zukitwo-colors-common/patches/panel.rc.patch" "./Zukitwo-colors-common/patches/enable-dark-menubar.patch"
+    yes | patch ./zuki-themes/Zukitwo/gtk-2.0/widgets/panel.rc <./Zukitwo-colors-common/patches/panel.rc.patch
+    yes | patch ./zuki-themes/Zukitwo/gtk-2.0/gtkrc <./Zukitwo-colors-common/patches/enable-dark-menubar.patch
     OLDIFS="$IFS"
     IFS=$'\n'
-    for file in $(find ./zuki_themes/ -type f);do
+    for file in $(find ./zuki-themes/ -type f);do
         sed -i 's/gtk_color_scheme = ./gtk_color_scheme = \"menubar_bg_color:#ffffff\\nmenubar_fg_color:#ffffff\\nmenuitem_fg_color:#ffffff\\n/g' "$file"
     done
     printf "\n"
@@ -113,12 +113,12 @@ patch_theme() {
 }
 
 generate_theme() {
-    if [[ ! -d "zuki_themes/" ]];then
-        echo "zuki_themes does not exist. You need to run \`./make-color-themes update\`."
+    if [[ ! -d "zuki-themes/" ]];then
+        echo "zuki-themes does not exist. You need to run \`./make-color-themes update\`."
         exit 1
     fi
     color="$1"
-    cp -r "zuki_themes/Zukitwo" "Zukitwo-$color"
+    cp -r "zuki-themes/Zukitwo" "Zukitwo-$color"
     cd "Zukitwo-$color"
     echo "Creating \"Zukitwo-$color\"..."
     file_list=$(find . -type f | grep -v 'make-colors-themes')
@@ -147,13 +147,13 @@ generate_theme() {
 }
 
 update() {
-    if [[ ! -d "zuki_themes/.git" ]];then
-        git clone https://github.com/lassekongo83/zuki_themes.git
+    if [[ ! -d "zuki-themes/.git" ]];then
+        git clone https://github.com/lassekongo83/zuki-themes.git
     fi
-    cd zuki_themes
-    echo "Resetting git tree of zuki_themes..."
+    cd zuki-themes
+    echo "Resetting git tree of zuki-themes..."
     git reset --hard HEAD
-    echo "Getting latest revision of zuki_themes..."
+    echo "Getting latest revision of zuki-themes..."
     git pull
     cd "$OLDPWD"
     printf '\n\n'
@@ -178,8 +178,8 @@ help() {
     echo "  user_install    - install the theme in your ~/.themes directory"
     echo "  uninstall       - uninstall the theme"
     echo "  clean           - delete old generated files"
-    echo "  patch           - patch zuki_themes file"
-    echo "  update          - update the local copy of the zuki_themes repo"
+    echo "  patch           - patch zuki-themes file"
+    echo "  update          - update the local copy of the zuki-themes repo"
     echo "  debug           - activate debug messages"
     echo "  help            - display this message"
     echo

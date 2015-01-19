@@ -1,6 +1,6 @@
 # shiki-colors-revival
 
-This consists mostly of a script that modifies the original Zukitwo-Brave-Brave-Brave-Brave-Brave-Brave theme's
+This consists mostly of a script that modifies the original Zukitwo theme's
 files to fit to all of the colors in the GNOME Colors palette.
 
 At the moment, these themes are currently intended to be used with Xfce4, since
@@ -16,7 +16,7 @@ Use `./make-colors-themes` if you want to know what else the installer can do.
 
 ## Current problems
 - I'm still learning GTK, and GNOME developers, for some god-only-knows-why
-reason they decided to provide pretty awful documentation.
+  reason they decided to provide pretty awful documentation.
 - Eventually this will stop working since GNOME developers will probably think
   that GTK 3 on non-GNOME environments is deprecated or something, and not worth
   their support. It's probably better to use Qt in the future.
@@ -28,4 +28,4 @@ reason they decided to provide pretty awful documentation.
 
 ## Credits
 - Zuki-themes by [lassekongo83](http://lassekongo83.deviantart.com/)
-- Zukitwo-Brave-Brave-Brave-Brave-Brave-Brave-Colors-Xfwm by [fredbird67](http://xfce-look.org/usermanager/search.php?username=fredbird67)
+- Zukitwo-Colors-Xfwm by [fredbird67](http://xfce-look.org/usermanager/search.php?username=fredbird67)
