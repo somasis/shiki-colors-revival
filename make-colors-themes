@@ -150,13 +150,14 @@ generate_theme() {
 
 update() {
     if [[ ! -d "zuki-themes/.git" ]];then
-        git clone https://github.com/lassekongo83/zuki-themes.git
+        git submodule init zuki-themes/
+        git submodule update -f zuki-themes/
     fi
-    cd zuki-themes
-    echo "Resetting git tree of zuki-themes..."
-    git reset --hard HEAD
+    echo "Resetting zuki-themes tree..."
+    git submodule deinit -f zuki-themes/
+    git submodule init zuki-themes/
     echo "Getting latest revision of zuki-themes..."
-    git pull
+    git submodule update -f -- zuki-themes/
     cd "$OLDPWD"
     printf '\n\n'
 }
