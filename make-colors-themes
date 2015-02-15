@@ -104,6 +104,11 @@ patch_theme() {
     fix_line_endings "./zuki-themes/Zukitwo/gtk-2.0/widgets/panel.rc" "./zuki-themes/Zukitwo/gtk-2.0/gtkrc" "./Zukitwo-colors-common/patches/panel.rc.patch" "./Zukitwo-colors-common/patches/enable-dark-menubar.patch"
     yes | patch ./zuki-themes/Zukitwo/gtk-2.0/widgets/panel.rc <./Zukitwo-colors-common/patches/panel.rc.patch
     yes | patch ./zuki-themes/Zukitwo/gtk-2.0/gtkrc <./Zukitwo-colors-common/patches/enable-dark-menubar.patch
+    for zuki_theme in ./zuki-themes/*/;do
+        pushd "$zuki_theme/"
+        rm -rf "xfwm4"
+        popd
+    done
     OLDIFS="$IFS"
     IFS=$'\n'
     for file in $(find ./zuki-themes/ -type f);do
