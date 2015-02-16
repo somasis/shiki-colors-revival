@@ -26,6 +26,9 @@ or just [download the latest release](releases).
 
 Use `./make-colors-themes` if you want to know what else the installer can do.
 
+**Exherbo users**:
+    There is an exheres in ::somasis; x11-themes/shiki-colors-revival.
+
 ## How this works
 In order to minimize the amount of maintenance needed, we base these themes off
 of [zuki-themes] so that we benefit from [lassekongo83]'s work on Zukitwo.
