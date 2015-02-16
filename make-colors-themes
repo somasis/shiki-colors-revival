@@ -46,15 +46,15 @@ install_plank_theme() {
 install_theme() {
     [[ ! -d "zuki-themes" ]] && update
     for color in ${colors[@]};do
-        if [[ -d "Zukitwo-$color" ]];then
-            printf "Installing \"Zukitwo-$color\""
+        if [[ -d "Shiki-$color" ]];then
+            printf "Installing \"Shiki-$color\""
             if [[ "$user_install" ]];then
                 printf "...\n"
-                cp -r "Zukitwo-$color/" "$HOME/.themes"
+                cp -r "Shiki-$color/" "$HOME/.themes"
             else
                 echo " system-wide..."
                 mkdir -p "$DESTDIR/usr/share/themes/"
-                cp -r "$PWD/Zukitwo-$color/" "$DESTDIR/usr/share/themes/"
+                cp -vr "$PWD/Shiki-$color/" "$DESTDIR/usr/share/themes/"
             fi
         else
             generate_theme "$color"
@@ -62,17 +62,17 @@ install_theme() {
     done
     if [[ "$user_install" ]];then
         echo "Installing Xfwm themes..."
-        cp -r Zukitwo-*-Xfwm/ "$HOME/.themes"
+        cp -vr Shiki-*-Xfwm/ "$HOME/.themes"
         echo "Installing Openbox themes..."
-        cp -r Zukitwo-*-Openbox/ "$HOME/.themes"
+        cp -vr Shiki-*-Openbox/ "$HOME/.themes"
         echo "Installing Plank themes..."
         install_plank_theme "$HOME/.local/share/plank/themes/" ./plank/*
     else
         echo "Installing Xfwm themes system-wide..."
         mkdir -p "$DESTDIR/usr/share/themes/"
-        cp -r "$PWD"/Zukitwo-*-Xfwm/ "$DESTDIR/usr/share/themes/"
+        cp -vr "$PWD"/Shiki-*-Xfwm/ "$DESTDIR/usr/share/themes/"
         echo "Installing Openbox themes system-wide..."
-        cp -r "$PWD"/Zukitwo-*-Openbox/ "$DESTDIR/usr/share/themes/"
+        cp -vr "$PWD"/Shiki-*-Openbox/ "$DESTDIR/usr/share/themes/"
         echo "Installing Plank themes system-wide..."
         install_plank_theme "/usr/share/plank/themes/" ./plank/*
     fi
@@ -82,8 +82,8 @@ install_theme() {
 uninstall_theme() {
     printf "Uninstalling..."
     for color in ${colors[@]};do
-        printf " \"Zukitwo-$color\""
-        rm -rf "$HOME/.themes/Zukitwo-$color/" "$DESTDIR/usr/share/themes/Zukitwo-$color/" 2>/dev/null >/dev/null
+        printf " \"Shiki-$color\""
+        rm -rf "$HOME/.themes/Shiki-$color/" "$DESTDIR/usr/share/themes/Shiki-$color/" 2>/dev/null >/dev/null
     done
     printf '\n\n\n'
 }
@@ -112,13 +112,13 @@ patch_theme() {
     echo "Resetting zuki-themes git repo..."
     git reset --hard HEAD
     cd "$OLDPWD"
-    fix_line_endings "./zuki-themes/Zukitwo/gtk-2.0/widgets/panel.rc" "./zuki-themes/Zukitwo/gtk-2.0/gtkrc" "./Zukitwo-colors-common/patches/panel.rc.patch" "./Zukitwo-colors-common/patches/enable-dark-menubar.patch"
-    yes | patch ./zuki-themes/Zukitwo/gtk-2.0/widgets/panel.rc <./Zukitwo-colors-common/patches/panel.rc.patch
-    yes | patch ./zuki-themes/Zukitwo/gtk-2.0/gtkrc <./Zukitwo-colors-common/patches/enable-dark-menubar.patch
+    fix_line_endings "./zuki-themes/Zukitwo/gtk-2.0/widgets/panel.rc" "./zuki-themes/Zukitwo/gtk-2.0/gtkrc" "./Shiki-colors-common/patches/panel.rc.patch" "./Shiki-colors-common/patches/enable-dark-menubar.patch"
+    yes | patch ./zuki-themes/Zukitwo/gtk-2.0/widgets/panel.rc <./Shiki-colors-common/patches/panel.rc.patch
+    yes | patch ./zuki-themes/Zukitwo/gtk-2.0/gtkrc <./Shiki-colors-common/patches/enable-dark-menubar.patch
     for zuki_theme in ./zuki-themes/*/;do
-        pushd "$zuki_theme/"
+        pushd "$zuki_theme/" >/dev/null 2>&1
         rm -rf "xfwm4"
-        popd
+        popd >/dev/null 2>&1
     done
     OLDIFS="$IFS"
     IFS=$'\n'
@@ -136,9 +136,9 @@ generate_theme() {
         exit 1
     fi
     color="$1"
-    cp -r "zuki-themes/Zukitwo" "Zukitwo-$color"
-    cd "Zukitwo-$color"
-    echo "Creating \"Zukitwo-$color\"..."
+    cp -r "zuki-themes/Zukitwo" "Shiki-$color"
+    cd "Shiki-$color"
+    echo "Creating \"Shiki-$color\"..."
     file_list=$(find . -type f | grep -v 'make-colors-themes')
     for property in ${properties[@]};do
         property_var_name=\$${color}_$property
@@ -155,12 +155,12 @@ generate_theme() {
         IFS=$'\n'
         property_var_contents=$(echo "$property_var_contents" | sed 's/\#/\\\#/g')
         for file in ${file_list};do
-            sed -i "s/${property}_color:\#[0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F]/${property}_color:$property_var_contents/g;s/theme_${property}_color \#[0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F]/theme_${property}_color $property_var_contents/g;s/Zukitwo/Zukitwo-$color/g;s/define-color theme_${property}_color .*\;/define-color theme_${property}_color $property_var_contents\;/g" "$file" 2>/dev/null >/dev/null
+            sed -i "s/${property}_color:\#[0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F]/${property}_color:$property_var_contents/g;s/theme_${property}_color \#[0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F]/theme_${property}_color $property_var_contents/g;s/Zukitwo/Shiki-$color/g;s/define-color theme_${property}_color .*\;/define-color theme_${property}_color $property_var_contents\;/g" "$file" 2>/dev/null >/dev/null
         done
         IFS="$OLDIFS"
     done
     #rm -rf "xfwm4"
-    cp -r ../Zukitwo-colors-common/* ./
+    cp -vr ../Shiki-colors-common/* ./
     cd "$OLDPWD"
 }
 
@@ -181,8 +181,8 @@ update() {
 clean() {
     printf "Removing..."
     for color in ${colors[@]};do
-        printf " \"Zukitwo-$color/\""
-        rm -rf "Zukitwo-$color/"
+        printf " \"Shiki-$color/\""
+        rm -rf "Shiki-$color/"
     done
     printf '\n\n'
 }
@@ -192,15 +192,15 @@ help() {
     echo "usage: make-colors-themes [actions]"
     echo
     echo "arguments:"
-    echo "  generate        - just generate the theme"
-    echo "  install         - install the theme system-wide"
-    echo "  user_install    - install the theme in your ~/.themes directory"
-    echo "  uninstall       - uninstall the theme"
-    echo "  clean           - delete old generated files"
-    echo "  patch           - patch zuki-themes file"
-    echo "  update          - update the local copy of the zuki-themes repo"
-    echo "  debug           - activate debug messages"
-    echo "  help            - display this message"
+    echo "    generate        - just generate the theme"
+    echo "    install         - install the theme system-wide"
+    echo "    user_install    - install the theme in your ~/.themes directory"
+    echo "    uninstall       - uninstall the theme"
+    echo "    clean           - delete old generated files"
+    echo "    patch           - patch zuki-themes file"
+    echo "    update          - update the local copy of the zuki-themes repo"
+    echo "    debug           - activate debug messages"
+    echo "    help            - display this message"
     echo
     echo "edit the \$colors variables in the script if you'd like to only generate certain colors"
     echo
