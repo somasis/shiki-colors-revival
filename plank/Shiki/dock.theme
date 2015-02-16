@@ -50,7 +50,7 @@ HideTime=125
 #The size of the urgent glow (shown when dock is hidden), in tenths of a percent of IconSize.
 GlowSize=30
 #The total time (in ms) to show the hidden-dock urgent glow.
-GlowTime=100
+GlowTime=10000
 #The time (in ms) of each pulse of the hidden-dock urgent glow.
 GlowPulseTime=2000
 #The hue-shift (-180 to 180) of the urgent indicator color.
