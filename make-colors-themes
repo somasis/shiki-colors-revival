@@ -85,7 +85,13 @@ uninstall_theme() {
         printf " \"Shiki-$color\""
         rm -rf "$DESTDIR$HOME/.themes/Shiki-$color/" "$DESTDIR/usr/share/themes/Shiki-$color/"
     done
-    printf '\n\n\n'
+    printf '\nRemoving Plank themes...'
+    for theme in plank/*;do
+        theme=$(basename "$theme")
+        printf " \"$theme\""
+        rm -rf "$DESTDIR$HOME/.local/share/plank/themes/$theme" "$DESTDIR/usr/share/plank/themes/$theme"
+    done
+    printf '\n\n'
 }
 
 fix_line_endings() {
