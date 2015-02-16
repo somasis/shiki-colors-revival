@@ -36,6 +36,13 @@ debug() {
     [[ "$debug" ]] && echo "$@"
 }
 
+install_plank_theme() {
+    [[ ! -d "$1" ]] && mkdir -p "$1"
+    plank_dir="$1"
+    shift
+    cp -vr "$plank_dir" "$@"
+}
+
 install_theme() {
     [[ ! -d "zuki-themes" ]] && update
     for color in ${colors[@]};do
@@ -58,12 +65,16 @@ install_theme() {
         cp -r Zukitwo-*-Xfwm/ "$HOME/.themes"
         echo "Installing Openbox themes..."
         cp -r Zukitwo-*-Openbox/ "$HOME/.themes"
+        echo "Installing Plank themes..."
+        install_plank_theme "$HOME/.local/share/plank/themes/" ./plank/*
     else
         echo "Installing Xfwm themes system-wide..."
         mkdir -p "$DESTDIR/usr/share/themes/"
         cp -r "$PWD"/Zukitwo-*-Xfwm/ "$DESTDIR/usr/share/themes/"
         echo "Installing Openbox themes system-wide..."
         cp -r "$PWD"/Zukitwo-*-Openbox/ "$DESTDIR/usr/share/themes/"
+        echo "Installing Plank themes system-wide..."
+        install_plank_theme "/usr/share/plank/themes/" ./plank/*
     fi
     printf '\n'
 }
