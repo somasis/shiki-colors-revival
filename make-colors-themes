@@ -50,7 +50,7 @@ install_theme() {
             printf "Installing \"Shiki-$color\""
             if [[ "$user_install" ]];then
                 printf "...\n"
-                cp -r "Shiki-$color/" "$HOME/.themes"
+                cp -r "Shiki-$color/" "$DESTDIR$HOME/.themes"
             else
                 echo " system-wide..."
                 mkdir -p "$DESTDIR/usr/share/themes/"
@@ -62,11 +62,11 @@ install_theme() {
     done
     if [[ "$user_install" ]];then
         echo "Installing Xfwm themes..."
-        cp -vr Shiki-*-Xfwm/ "$HOME/.themes"
+        cp -vr Shiki-*-Xfwm/ "$DESTDIR$HOME/.themes"
         echo "Installing Openbox themes..."
-        cp -vr Shiki-*-Openbox/ "$HOME/.themes"
+        cp -vr Shiki-*-Openbox/ "$DESTDIR$HOME/.themes"
         echo "Installing Plank themes..."
-        install_plank_theme "$HOME/.local/share/plank/themes/" ./plank/*
+        install_plank_theme "$DESTDIR$HOME/.local/share/plank/themes/" ./plank/*
     else
         echo "Installing Xfwm themes system-wide..."
         mkdir -p "$DESTDIR/usr/share/themes/"
@@ -74,7 +74,7 @@ install_theme() {
         echo "Installing Openbox themes system-wide..."
         cp -vr "$PWD"/Shiki-*-Openbox/ "$DESTDIR/usr/share/themes/"
         echo "Installing Plank themes system-wide..."
-        install_plank_theme "/usr/share/plank/themes/" ./plank/*
+        install_plank_theme "$DESTDIR/usr/share/plank/themes/" ./plank/*
     fi
     printf '\n'
 }
@@ -83,7 +83,7 @@ uninstall_theme() {
     printf "Uninstalling..."
     for color in ${colors[@]};do
         printf " \"Shiki-$color\""
-        rm -rf "$HOME/.themes/Shiki-$color/" "$DESTDIR/usr/share/themes/Shiki-$color/" 2>/dev/null >/dev/null
+        rm -rf "$DESTDIR$HOME/.themes/Shiki-$color/" "$DESTDIR/usr/share/themes/Shiki-$color/"
     done
     printf '\n\n\n'
 }
