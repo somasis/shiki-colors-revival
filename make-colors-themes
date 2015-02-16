@@ -40,7 +40,7 @@ install_plank_theme() {
     [[ ! -d "$1" ]] && mkdir -p "$1"
     plank_dir="$1"
     shift
-    cp -vr "$plank_dir" "$@"
+    cp -vr "$@" "$plank_dir"
 }
 
 install_theme() {
