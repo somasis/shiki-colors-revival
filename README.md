@@ -12,6 +12,13 @@ I'll try to help the best I can though.
 - Openbox themes
 - [Plank](https://launchpad.net/plank) themes
 
+## Downloading
+Either use `git` to clone this repository:
+    
+    git clone https://github.com/Somasis/shiki-colors-revival
+
+or just [download the latest release](releases).
+
 ## Installing
 1. Open a terminal in this repo's directory.
 2. `./make-colors-themes generate`
@@ -62,3 +69,4 @@ version of GTK3, again. We can make upstream do all the work. :)
 [fredbird67]: http://xfce-look.org/usermanager/search.php?username=fredbird67
 [Arthur Spitzer]: https://code.google.com/p/gnome-colors/issues/detail?id=75#c21
 [GNOME Colors palette]: https://github.com/Somasis/gnome-colors-revival/blob/master/Palette.png
+[releases]: https://github.com/Somasis/shiki-colors-revival/releases
