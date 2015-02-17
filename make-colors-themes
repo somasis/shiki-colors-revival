@@ -120,9 +120,9 @@ patch_theme() {
     echo "Resetting zuki-themes git repo..."
     git reset --hard HEAD
     cd "$OLDPWD"
-    fix_line_endings "./zuki-themes/Zukitwo/gtk-2.0/widgets/panel.rc" "./zuki-themes/Zukitwo/gtk-2.0/gtkrc" "./Shiki-colors-common/patches/panel.rc.patch" "./Shiki-colors-common/patches/enable-dark-menubar.patch"
-    yes | patch ./zuki-themes/Zukitwo/gtk-2.0/widgets/panel.rc <./Shiki-colors-common/patches/panel.rc.patch
-    yes | patch ./zuki-themes/Zukitwo/gtk-2.0/gtkrc <./Shiki-colors-common/patches/enable-dark-menubar.patch
+    fix_line_endings "./zuki-themes/Zukitwo/gtk-2.0/widgets/panel.rc" "./zuki-themes/Zukitwo/gtk-2.0/gtkrc" "./Shiki-Colors-common/patches/panel.rc.patch" "./Shiki-Colors-common/patches/enable-dark-menubar.patch"
+    yes | patch ./zuki-themes/Zukitwo/gtk-2.0/widgets/panel.rc <./Shiki-Colors-common/patches/panel.rc.patch
+    yes | patch ./zuki-themes/Zukitwo/gtk-2.0/gtkrc <./Shiki-Colors-common/patches/enable-dark-menubar.patch
     for zuki_theme in ./zuki-themes/*/;do
         pushd "$zuki_theme/" >/dev/null 2>&1
         rm -rf "xfwm4"
@@ -167,7 +167,7 @@ generate_theme() {
         IFS="$OLDIFS"
     done
     #rm -rf "xfwm4"
-    cp -vr ../Shiki-colors-common/* ./
+    cp -vr ../Shiki-Colors-common/* ./
     cd "$OLDPWD"
 }
 
@@ -195,7 +195,7 @@ clean() {
 }
 
 help() {
-    echo "make-colors-themes - create Zukitwo-colors themes"
+    echo "make-colors-themes - create Shiki-Colors themes"
     echo "usage: make-colors-themes [actions]"
     echo
     echo "arguments:"
