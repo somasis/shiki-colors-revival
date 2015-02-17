@@ -1,5 +1,5 @@
---- ./zuki-themes/Zukitwo-Brave-Brave-Brave-Brave-Brave-Brave/gtk-2.0/gtkrc	2014-08-02 14:25:23.286222703 -0400
-+++ Zukitwo-Brave-Brave-Brave-Brave-Brave-Brave-colors-common/patches/enable-dark-menubar.patch	2014-08-02 14:18:26.212871329 -0400
+--- ./zuki-themes/Zukitwo/gtk-2.0/gtkrc	2014-08-02 14:25:23.286222703 -0400
++++ Zukitwo-colors-common/patches/enable-dark-menubar.patch	2014-08-02 14:18:26.212871329 -0400
 @@ -249,7 +249,7 @@
  
  style "murrine-menubar" = "murrine-default" {
