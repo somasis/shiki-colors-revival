@@ -83,13 +83,15 @@ uninstall_theme() {
     printf "Uninstalling..."
     for color in ${colors[@]};do
         printf " \"Shiki-$color\""
-        rm -rf "$DESTDIR$HOME/.themes/Shiki-$color/" "$DESTDIR/usr/share/themes/Shiki-$color/"
+        [[ ! -z "$user_uninstall" ]] && rm -rf "$DESTDIR$HOME/.themes/Shiki-$color/"
+        [[ -z "$user_uninstall" ]] && rm -rf "$DESTDIR/usr/share/themes/Shiki-$color/"
     done
     printf '\nRemoving Plank themes...'
     for theme in plank/*;do
         theme=$(basename "$theme")
         printf " \"$theme\""
-        rm -rf "$DESTDIR$HOME/.local/share/plank/themes/$theme" "$DESTDIR/usr/share/plank/themes/$theme"
+        [[ ! -z "$user_uninstall" ]] && rm -rf "$DESTDIR$HOME/.local/share/plank/themes/$theme"
+        [[ -z "$user_uninstall" ]] && rm -rf "$DESTDIR/usr/share/plank/themes/$theme"
     done
     printf '\n\n'
 }
@@ -201,6 +203,7 @@ help() {
     echo "    install         - install the theme system-wide"
     echo "    user_install    - install the theme in your ~/.themes directory"
     echo "    uninstall       - uninstall the theme"
+    echo "    user_uninstall  - uninstall the theme from the ~/.themes directory"
     echo "    clean           - delete old generated files"
     echo "    patch           - patch zuki-themes file"
     echo "    update          - update the local copy of the zuki-themes repo"
@@ -229,13 +232,14 @@ if [[ "$1" ]];then
         [[ "$1" == "generate" ]] && generate=true && generate_themes
         [[ "$1" == "install" ]] && install=true && install_theme
         [[ "$1" == "user-install" ]] && user_install=1 && install_theme
+        [[ "$1" == "user-uninstall" ]] && user_uninstall=1 && uninstall_theme
         [[ "$1" == "update" ]] && update=true && update
         [[ "$1" == "uninstall" ]] && uninstall=true && uninstall_theme
         [[ "$1" == "clean" ]] && clean=true clean
         [[ "$1" == "patch" ]] && patch=true && patch_theme
         [[ "$1" == "debug" ]] && debug=true
         [[ "$1" == "help" ]] && help=true && help
-        [[ ! "$help" && ! "$install" && ! "$user_install" && ! "$update" && ! "$uninstall" && ! "$clean" && ! "$patch" && ! "$debug" && ! "$generate" ]] && command_not_found=1 && command="$1"
+        [[ ! "$help" && ! "$install" && ! "$user_install" && ! "$user_uninstall" && ! "$update" && ! "$uninstall" && ! "$clean" && ! "$patch" && ! "$debug" && ! "$generate" ]] && command_not_found=1 && command="$1"
         shift
     done
 else
