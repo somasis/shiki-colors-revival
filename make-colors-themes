@@ -44,7 +44,7 @@ install_plank_theme() {
 }
 
 install_theme() {
-    [[ ! -d "zuki-themes" ]] && update
+    [[ ! -d "zuki-themes/.git" ]] && update
     for color in ${colors[@]};do
         if [[ -d "Shiki-$color" ]];then
             printf "Installing \"Shiki-$color\""
@@ -137,9 +137,8 @@ patch_theme() {
 }
 
 generate_theme() {
-    if [[ ! -d "zuki-themes/" ]];then
-        echo "zuki-themes does not exist. You need to run \`./make-color-themes update\`."
-        exit 1
+    if [[ ! -d "zuki-themes/.git" ]];then
+        update
     fi
     color="$1"
     cp -r "zuki-themes/Zukitwo" "Shiki-$color"
