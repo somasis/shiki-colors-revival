@@ -44,7 +44,8 @@ install_plank_theme() {
 }
 
 install_theme() {
-    [[ ! -d "zuki-themes/.git" ]] && update
+    check_for_zuki
+    check_for_generated
     for color in ${colors[@]};do
         if [[ -d "Shiki-$color" ]];then
             printf "Installing \"Shiki-$color\""
@@ -86,7 +87,13 @@ uninstall_theme() {
         [[ ! -z "$user_uninstall" ]] && rm -rf "$DESTDIR$HOME/.themes/Shiki-$color/"
         [[ -z "$user_uninstall" ]] && rm -rf "$DESTDIR/usr/share/themes/Shiki-$color/"
     done
-    printf '\nRemoving Plank themes...'
+    echo "Uninstalling Xfwm themes..."
+    [[ ! -z "$user_uninstall" ]] && rm -vr "$DESTDIR$HOME/.themes/"Shiki-*-Xfwm/
+    [[ -z "$user_uninstall" ]] &&rm -vr "$DESTDIR/usr/share/themes/"Shiki-*-Xfwm/
+    echo "Uninstalling Openbox themes..."
+    [[ ! -z "$user_uninstall" ]] && rm -vr "$DESTDIR$HOME/.themes/"Shiki-*-Openbox/
+    [[ -z "$user_uninstall" ]] && rm -vr "$DESTDIR/usr/share/themes/"Shiki-*-Openbox/
+    printf '\nUninstalling Plank themes...'
     for theme in plank/*;do
         theme=$(basename "$theme")
         printf " \"$theme\""
@@ -114,6 +121,7 @@ patch() {
 }
 
 patch_theme() {
+    check_for_zuki
     echo "Patching zuki-themes..."
     echo "If these files were already patched before, you'll see errors. Ignore them."
     cd zuki-themes
@@ -125,6 +133,7 @@ patch_theme() {
     yes | patch ./zuki-themes/Zukitwo/gtk-2.0/gtkrc <./Shiki-Colors-common/patches/enable-dark-menubar.patch
     for zuki_theme in ./zuki-themes/*/;do
         pushd "$zuki_theme/" >/dev/null 2>&1
+        echo "Removing xfwm4 theme in \"$zuki_theme\"..."
         rm -rf "xfwm4"
         popd >/dev/null 2>&1
     done
@@ -139,11 +148,10 @@ patch_theme() {
 }
 
 generate_theme() {
-    if [[ ! -d "zuki-themes/.git" ]];then
-        update
-    fi
     color="$1"
     cp -r "zuki-themes/Zukitwo" "Shiki-$color"
+    echo "Removing xfwm4 theme in \"Shiki-$color\"..."
+    rm -rf "Shiki-$color/xfwm4"
     cd "Shiki-$color"
     echo "Creating \"Shiki-$color\"..."
     file_list=$(find . -type f | grep -v 'make-colors-themes')
@@ -172,17 +180,16 @@ generate_theme() {
 }
 
 update() {
-    if [[ ! -d "zuki-themes/.git" ]];then
-        git submodule init zuki-themes/
-        git submodule update -f zuki-themes/
-    fi
+    git submodule deinit -f zuki-themes/
+    git submodule init zuki-themes/
+    git submodule update -f zuki-themes/
     echo "Resetting zuki-themes tree..."
     git submodule deinit -f zuki-themes/
     git submodule init zuki-themes/
     echo "Getting latest revision of zuki-themes..."
     git submodule update -f -- zuki-themes/
     cd "$OLDPWD"
-    printf '\n\n'
+    printf '\n'
 }
 
 clean() {
@@ -220,11 +227,27 @@ command_not_found() {
 }
 
 generate_themes() {
+    check_for_zuki
     generate=true
     for theme in ${colors[@]};do
         generate_theme $theme
     done
     printf "Now, type \`$0 install\` or \`$0 user_install\` to install.\n"
+}
+
+check_for_zuki() {
+    if [[ ! -d "zuki-themes/Zukitwo" ]];then
+        update
+    fi
+}
+
+check_for_generated() {
+    local color=
+    for color in ${colors[@]};do
+        if [[ ! -d "Shiki-$color/" ]];then
+            generate_theme "$color"
+        fi
+    done
 }
 
 if [[ "$1" ]];then
