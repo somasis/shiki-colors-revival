@@ -38,7 +38,8 @@ Shiki-%:
 	@echo "Generating $@ from $(BASE)..."
 	cp -r $(BASE) $@
 	sed -i $@/gtk-2.0/gtkrc $@/gtk-3.0/gtk.css	\
-		-e 's/#d64937/#$($@_selected)/g'
+		-e 's/#d64937/#$($@_selected)/g'    \
+		-e 's/#2d2d2d/#212121/g'
 
 generate:
 	$(foreach COLOR,$(COLORS),make Shiki-$(COLOR);)
@@ -52,4 +53,4 @@ install:
 	mkdir -p $(DESTDIR)$(PREFIX)/share/plank/themes
 	cp -r Shiki-Colors-* $(DESTDIR)$(PREFIX)/share/themes
 	cp -r plank/* $(DESTDIR)$(PREFIX)/share/plank/themes
-	$(foreach COLOR,$(COLORS),cp -r Shiki-$(COLOR) $(DESTDIR)$(PREFIX)/share/themes/Shiki-$(COLOR);)
+	$(foreach COLOR,$(COLORS),cp -r Shiki-$(COLOR) $(DESTDIR)$(PREFIX)/share/themes;)
