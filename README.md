@@ -6,6 +6,9 @@ At the moment, these themes are currently intended to be used with Xfce4, since
 that's what I use. If you run into problems in another desktop environment,
 I'll try to help the best I can though.
 
+Relevant license files can be found underneath the folders. (Numix is GPL-3,
+Xfwm4 is GPL-2, Plank themes and build system are ISC)
+
 ## Included
 - GTK 2 and 3 themes
 - Xfwm4 themes

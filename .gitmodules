@@ -1,3 +1,6 @@
 [submodule "zuki-themes"]
 	path = zuki-themes
 	url = https://github.com/lassekongo83/zuki-themes.git
+[submodule "numix-themes"]
+	path = numix-themes
+	url = https://github.com/shimmerproject/Numix
