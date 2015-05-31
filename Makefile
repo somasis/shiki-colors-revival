@@ -37,7 +37,8 @@ prepare:
 Shiki-%:
 	@echo "Generating $@ from $(BASE)..."
 	cp -r $(BASE) $@
-	sed -i $@/gtk-2.0/gtkrc $@/gtk-3.0/gtk.css	\
+	sed -i  $@/gtk-2.0/gtkrc $@/gtk-3.0/*.css $@/gtk-3.0/assets/*.svg \
+	        $@/gtk-3.0/apps/*.css           \
 		-e 's/#d64937/#$($@_selected)/g'    \
 		-e 's/#2d2d2d/#212121/g'
 
