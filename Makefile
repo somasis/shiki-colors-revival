@@ -30,6 +30,22 @@ Shiki-Wise_selected				= 97bf60
 
 all: prepare generate install
 
+help:
+	@echo "make targets:"
+	@echo "    all                      Prepare, generate, and install theme"
+	@echo "    clean                    Delete generated themes and base ($(BASE))"
+	@echo "    prepare                  Run pre-generation modifications on base theme"
+	@echo "    generate                 Generate all colors specified in the Makefile"
+	@echo "    Shiki-<color>            Generate Shiki-<color>"
+	@echo "    install                  Install themes to $(DESTDIR)$(PREFIX)/share/{plank/,}themes"
+	@echo
+	@echo "Base theme: $(BASE)"
+	@echo "Default themes to generate: $(foreach COLOR,$(COLORS),Shiki-$(COLOR))"
+	@echo
+	@echo "Notes:"
+	@echo "    If you do not want to run \`git submodules update\` during the prepare"
+	@echo "    phase, set \${no_git}; ex. \`no_git=true make prepare\`"
+
 prepare:
 	[[ "$(no_git)" ]] || git submodule update
 	cd $(BASE) && rm -rf xfwm4 metacity-1 openbox-3 xfce-notify-4.0 index.theme
