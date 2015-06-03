@@ -41,15 +41,6 @@ As a result of doing it this method, we don't have to worry about updating the
 CSS every time GNOME's developers decide to break everything with a new minor
 version of GTK3, again. We can make upstream do all the work. :)
 
-## Current problems
-- I'm still learning GTK, and GNOME developers, for some god-only-knows-why
-  reason they decided to provide pretty awful documentation.
-- Eventually this will stop working since GNOME developers will probably think
-  that GTK 3 on non-GNOME environments is deprecated or something, and not worth
-  their support. It's probably better to use Qt in the future.
-- It doesn't look exactly like the original theme; part of this is intentional,
-  part of it is that the theme looks better, to me, than the original one.
-
 ## Credits
 - [Numix] by [shimmerproject]
 - [Shiki-Colors-Xfwm] by [fredbird67], modified by myself
