@@ -14,6 +14,12 @@ Xfwm4 is GPL-2, Plank themes and build system are ISC)
 - Xfwm4 themes
 - [Plank](https://launchpad.net/plank) themes
 
+## Dependencies
+- `sed`
+- `make`
+- `gtk-engine-murrine` (needed for GTK2 theme)
+- `git`
+
 ## Downloading
 Either use `git` to clone this repository:
     
