@@ -47,6 +47,15 @@ As a result of doing it this method, we don't have to worry about updating the
 CSS every time GNOME's developers decide to break everything with a new minor
 version of GTK3, again. We can make upstream do all the work. :)
 
+## Screenshots
+
+![Shiki-Brave](https://raw.githubusercontent.com/Somasis/shiki-colors-revival/master/screenshots/Shiki-Brave.png)
+![Shiki-Human](https://raw.githubusercontent.com/Somasis/shiki-colors-revival/master/screenshots/Shiki-Human.png)
+![Shiki-Illustrious](https://raw.githubusercontent.com/Somasis/shiki-colors-revival/master/screenshots/Shiki-Illustrious.png)
+![Shiki-Noble](https://raw.githubusercontent.com/Somasis/shiki-colors-revival/master/screenshots/Shiki-Noble.png)
+![Shiki-Wine](https://raw.githubusercontent.com/Somasis/shiki-colors-revival/master/screenshots/Shiki-Wine.png)
+![Shiki-Wise](https://raw.githubusercontent.com/Somasis/shiki-colors-revival/master/screenshots/Shiki-Wise.png)
+
 ## Credits
 - [Numix] by [shimmerproject]
 - [Shiki-Colors-Xfwm] by [fredbird67], modified by myself
