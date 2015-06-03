@@ -5,8 +5,8 @@ title_horizontal_offset=0
 title_vertical_offset_active=1
 title_vertical_offset_inactive=1
 title_shadow_active=false
-active_text_color=#E6E6E6
-inactive_text_color=#9B9B9B
+active_text_color=#cacaca
+inactive_text_color=#919191
 
 show_app_icon=true
 
