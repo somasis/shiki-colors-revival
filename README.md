@@ -23,7 +23,7 @@ or just [download the latest release](releases).
 
 ## Installing
 1. Open a terminal in this repo's directory.
-2. `make`
+2. `make`, or run `make help` to see what else the Makefile can do.
 3. `make install` as root
 
 **Exherbo users**:
