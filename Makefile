@@ -28,7 +28,7 @@ Shiki-Wise_selected				= 97bf60
 # xfwm4 is provided by shiki-colors-xfwm, metacity/openbox are not themed
 # xfce-notify is not yet themed as well
 
-all: prepare generate install
+all: prepare generate
 
 help:
 	@echo "make targets:"
