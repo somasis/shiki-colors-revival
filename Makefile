@@ -47,6 +47,7 @@ help:
 	@echo "    phase, set \${no_git}; ex. \`no_git=true make prepare\`"
 
 prepare:
+	[[ "$(no_git)" ]] || git submodule init
 	[[ "$(no_git)" ]] || git submodule update
 	cd $(BASE) && rm -rf xfwm4 metacity-1 openbox-3 xfce-notify-4.0 index.theme
 
