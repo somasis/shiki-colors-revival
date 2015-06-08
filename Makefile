@@ -18,6 +18,7 @@ PREFIX		?= /usr
 BASE		=	numix-themes
 COLORS		=	Brave-Revival Human-Revival Illustrious-Revival			\
 				Noble-Revival Wine-Revival Wise-Revival
+PLANK		=	Shiki Shiki-panel Shiki-platform
 
 Shiki-Brave-Revival_menubar_bg			= 212121
 Shiki-Human-Revival_menubar_bg			= 212121
@@ -49,6 +50,7 @@ help:
 	@echo
 	@echo "Base theme: $(BASE)"
 	@echo "Default themes to generate: $(foreach COLOR,$(COLORS),Shiki-$(COLOR))"
+	@echo "Plank themes: $(PLANK)"
 	@echo
 	@echo "Notes:"
 	@echo "    If you do not want to run \`git submodules update\` during the prepare"
@@ -78,5 +80,5 @@ install:
 	mkdir -p $(DESTDIR)$(PREFIX)/share/themes
 	mkdir -p $(DESTDIR)$(PREFIX)/share/plank/themes
 	cp -r Shiki-Colors-* $(DESTDIR)$(PREFIX)/share/themes
-	cp -r plank/* $(DESTDIR)$(PREFIX)/share/plank/themes
+	$(foreach PLANK_THEME,$(PLANK),cp -r plank/$(PLANK_THEME) $(DESTDIR)$(PREFIX)/share/plank/themes;)
 	$(foreach COLOR,$(COLORS),cp -r Shiki-$(COLOR) $(DESTDIR)$(PREFIX)/share/themes;)
