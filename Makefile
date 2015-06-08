@@ -16,14 +16,15 @@ DESTDIR		?= /
 PREFIX		?= /usr
 
 BASE		=	numix-themes
-COLORS		=	Brave Human Illustrious Noble Wine Wise
+COLORS		=	Brave-Revival Human-Revival Illustrious-Revival			\
+				Noble-Revival Wine-Revival Wise-Revival
 
-Shiki-Brave_selected			= 729fcf
-Shiki-Human_selected			= faa546
-Shiki-Illustrious_selected		= f9a1ac
-Shiki-Noble_selected			= ad7fa8
-Shiki-Wine_selected				= df5757
-Shiki-Wise_selected				= 97bf60
+Shiki-Brave-Revival_selected			= 729fcf
+Shiki-Human-Revival_selected			= faa546
+Shiki-Illustrious-Revival_selected		= f9a1ac
+Shiki-Noble-Revival_selected			= ad7fa8
+Shiki-Wine-Revival_selected				= df5757
+Shiki-Wise-Revival_selected				= 97bf60
 
 # xfwm4 is provided by shiki-colors-xfwm, metacity/openbox are not themed
 # xfce-notify is not yet themed as well

@@ -49,12 +49,12 @@ version of GTK3, again. We can make upstream do all the work. :)
 
 ## Screenshots
 
-![Shiki-Brave](https://raw.githubusercontent.com/Somasis/shiki-colors-revival/master/screenshots/Shiki-Brave.png)
-![Shiki-Human](https://raw.githubusercontent.com/Somasis/shiki-colors-revival/master/screenshots/Shiki-Human.png)
-![Shiki-Illustrious](https://raw.githubusercontent.com/Somasis/shiki-colors-revival/master/screenshots/Shiki-Illustrious.png)
-![Shiki-Noble](https://raw.githubusercontent.com/Somasis/shiki-colors-revival/master/screenshots/Shiki-Noble.png)
-![Shiki-Wine](https://raw.githubusercontent.com/Somasis/shiki-colors-revival/master/screenshots/Shiki-Wine.png)
-![Shiki-Wise](https://raw.githubusercontent.com/Somasis/shiki-colors-revival/master/screenshots/Shiki-Wise.png)
+![Shiki-Brave](https://raw.githubusercontent.com/Somasis/shiki-colors-revival/master/screenshots/Shiki-Brave-Revival.png)
+![Shiki-Human](https://raw.githubusercontent.com/Somasis/shiki-colors-revival/master/screenshots/Shiki-Human-Revival.png)
+![Shiki-Illustrious](https://raw.githubusercontent.com/Somasis/shiki-colors-revival/master/screenshots/Shiki-Illustrious-Revival.png)
+![Shiki-Noble](https://raw.githubusercontent.com/Somasis/shiki-colors-revival/master/screenshots/Shiki-Noble-Revival.png)
+![Shiki-Wine](https://raw.githubusercontent.com/Somasis/shiki-colors-revival/master/screenshots/Shiki-Wine-Revival.png)
+![Shiki-Wise](https://raw.githubusercontent.com/Somasis/shiki-colors-revival/master/screenshots/Shiki-Wise-Revival.png)
 
 ## Credits
 - [Numix] by [shimmerproject]
