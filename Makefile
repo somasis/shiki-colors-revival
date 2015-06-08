@@ -21,7 +21,11 @@ COLORS		=	Brave-Revival Human-Revival Illustrious-Revival			\
 				Brave-Classic Human-Classic Illustrious-Classic			\
 				Noble-Classic Wine-Classic Wise-Classic
 
-PLANK		=	Shiki-Revival Shiki-panel Shiki-platform
+WM			=	Shiki-Colors-Classic Shiki-Colors-Classic-EZ 			\
+				Shiki-Colors-Classic-Striped Shiki-Colors-Revival		\
+				Shiki-Colors-Revival-EZ
+
+PLANK		=	Shiki-Revival Shiki-Classic Shiki-panel Shiki-platform
 
 Shiki-Brave-Revival_menubar_bg			= 212121
 Shiki-Human-Revival_menubar_bg			= 212121
@@ -54,7 +58,7 @@ Shiki-Wise-Revival_selected				= 97bf60
 # xfwm4 is provided by shiki-colors-xfwm, metacity/openbox are not themed
 # xfce4-notify is not yet themed as well
 
-all: prepare generate
+all: generate
 
 help:
 	@echo "make targets:"
@@ -86,7 +90,7 @@ Shiki-%:
 		-e 's/#d64937/#$($@_selected)/g'    \
 		-e 's/#2d2d2d/#$($@_menubar_bg)/g'
 
-generate:
+generate: prepare
 	$(foreach COLOR,$(COLORS),make Shiki-$(COLOR);)
 
 clean:
@@ -96,10 +100,11 @@ clean:
 install:
 	mkdir -p $(DESTDIR)$(PREFIX)/share/themes
 	mkdir -p $(DESTDIR)$(PREFIX)/share/plank/themes
-	cp -r Shiki-Colors-* $(DESTDIR)$(PREFIX)/share/themes
-	$(foreach PLANK_THEME,$(PLANK),cp -r plank/$(PLANK_THEME) $(DESTDIR)$(PREFIX)/share/plank/themes;)
-	$(foreach COLOR,$(COLORS),cp -r Shiki-$(COLOR) $(DESTDIR)$(PREFIX)/share/themes;)
+	$(foreach PLANK_THEME,$(PLANK),cp -r plank/$(PLANK_THEME) $(DESTDIR)$(PREFIX)/share/plank/themes/$(PLANK_THEME);)
+	$(foreach COLOR,$(COLORS),cp -r Shiki-$(COLOR) $(DESTDIR)$(PREFIX)/share/themes/Shiki-$(COLOR);)
+	$(foreach WM_THEME,$(WM),cp -r $(WM_THEME) $(DESTDIR)$(PREFIX)/share/themes/$(WM_THEME);)
 
 uninstall:
-	$(foreach PLANK_THEME,$(PLANK),rm -rf $(DESTDIR)$(PREFIX)/share/plank/$(PLANK_THEME)/;)
-	$(foreach COLOR,$(COLORS),rm -rf $(DESTDIR)$(PREFIX)/share/themes/Shiki-$(COLOR)/;)
+	$(foreach PLANK_THEME,$(PLANK),rm -rf $(DESTDIR)$(PREFIX)/share/plank/$(PLANK_THEME);)
+	$(foreach COLOR,$(COLORS),rm -rf $(DESTDIR)$(PREFIX)/share/themes/Shiki-$(COLOR);)
+	$(foreach WM_THEME,$(WM),rm -rf $(DESTDIR)$(PREFIX)/share/themes/$(WM_THEME);)
