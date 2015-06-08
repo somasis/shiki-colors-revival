@@ -1,3 +1,4 @@
 [submodule "numix-themes"]
 	path = numix-themes
 	url = https://github.com/shimmerproject/Numix
+	ignore = all
