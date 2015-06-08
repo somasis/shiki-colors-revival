@@ -58,6 +58,7 @@ version of GTK3, again. We can make upstream do all the work. :)
 
 ## Credits
 - [Numix] by [shimmerproject]
+- [GNOME Colors] project for the initial theme design
 - [Shiki-Colors-Xfwm] by [fredbird67], modified by myself
 
 [Numix]: https://github.com/shimmerproject/Numix
@@ -66,3 +67,4 @@ version of GTK3, again. We can make upstream do all the work. :)
 [fredbird67]: http://xfce-look.org/usermanager/search.php?username=fredbird67
 [GNOME Colors palette]: https://github.com/Somasis/gnome-colors-revival/blob/master/Palette.png
 [releases]: https://github.com/Somasis/shiki-colors-revival/releases
+[GNOME Colors]: https://code.google.com/p/gnome-colors
