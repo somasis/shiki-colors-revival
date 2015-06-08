@@ -82,3 +82,7 @@ install:
 	cp -r Shiki-Colors-* $(DESTDIR)$(PREFIX)/share/themes
 	$(foreach PLANK_THEME,$(PLANK),cp -r plank/$(PLANK_THEME) $(DESTDIR)$(PREFIX)/share/plank/themes;)
 	$(foreach COLOR,$(COLORS),cp -r Shiki-$(COLOR) $(DESTDIR)$(PREFIX)/share/themes;)
+
+uninstall:
+	$(foreach PLANK_THEME,$(PLANK),rm -rf $(DESTDIR)$(PREFIX)/share/plank/$(PLANK_THEME)/;)
+	$(foreach COLOR,$(COLORS),rm -rf $(DESTDIR)$(PREFIX)/share/themes/Shiki-$(COLOR)/;)
