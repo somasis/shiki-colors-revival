@@ -16,7 +16,7 @@
 TopRoundness=0
 BottomRoundness=0
 LineWidth=1
-OuterStrokeColor=102;;102;;102;;255
+OuterStrokeColor=60;;60;;60;;255
 FillStartColor=80;;80;;80;;255
 FillEndColor=60;;60;;60;;255
 InnerStrokeColor=105;;105;;105;;255
