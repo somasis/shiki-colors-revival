@@ -17,8 +17,11 @@ PREFIX		?= /usr
 
 BASE		=	numix-themes
 COLORS		=	Brave-Revival Human-Revival Illustrious-Revival			\
-				Noble-Revival Wine-Revival Wise-Revival
-PLANK		=	Shiki Shiki-panel Shiki-platform
+				Noble-Revival Wine-Revival Wise-Revival					\
+				Brave-Classic Human-Classic Illustrious-Classic			\
+				Noble-Classic Wine-Classic Wise-Classic
+
+PLANK		=	Shiki-Revival Shiki-panel Shiki-platform
 
 Shiki-Brave-Revival_menubar_bg			= 212121
 Shiki-Human-Revival_menubar_bg			= 212121
@@ -27,11 +30,25 @@ Shiki-Noble-Revival_menubar_bg			= 212121
 Shiki-Wine-Revival_menubar_bg			= 212121
 Shiki-Wise-Revival_menubar_bg			= 212121
 
+Shiki-Brave-Classic_menubar_bg			= 3c3c3c
+Shiki-Human-Classic_menubar_bg			= 3c3c3c
+Shiki-Illustrious-Classic_menubar_bg	= 3c3c3c
+Shiki-Noble-Classic_menubar_bg			= 3c3c3c
+Shiki-Wine-Classic_menubar_bg			= 3c3c3c
+Shiki-Wise-Classic_menubar_bg			= 3c3c3c
+
 Shiki-Brave-Revival_selected			= 729fcf
 Shiki-Human-Revival_selected			= faa546
 Shiki-Illustrious-Revival_selected		= f9a1ac
 Shiki-Noble-Revival_selected			= ad7fa8
 Shiki-Wine-Revival_selected				= df5757
+Shiki-Wise-Revival_selected				= 97bf60
+
+Shiki-Brave-Classic_selected			= 729fcf
+Shiki-Human-Classic_selected			= faa546
+Shiki-Illustrious-Classic_selected		= f9a1ac
+Shiki-Noble-Classic_selected			= ad7fa8
+Shiki-Wine-Classic_selected				= df5757
 Shiki-Wise-Revival_selected				= 97bf60
 
 # xfwm4 is provided by shiki-colors-xfwm, metacity/openbox are not themed
