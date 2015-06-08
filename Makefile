@@ -68,6 +68,7 @@ help:
 	@echo "    generate                 Generate all colors specified in the Makefile"
 	@echo "    Shiki-<color>            Generate Shiki-<color>"
 	@echo "    install                  Install themes to $(DESTDIR)$(PREFIX)/share/{plank/,}themes"
+	@echo "    uninstall                Uninstall themes from $(DESTDIR)$(PREFIX)/share/{plank/,}themes"
 	@echo
 	@echo "Base theme: $(BASE)"
 	@echo "Default themes to generate: $(foreach COLOR,$(COLORS),Shiki-$(COLOR))"
