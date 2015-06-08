@@ -19,6 +19,13 @@ BASE		=	numix-themes
 COLORS		=	Brave-Revival Human-Revival Illustrious-Revival			\
 				Noble-Revival Wine-Revival Wise-Revival
 
+Shiki-Brave-Revival_menubar_bg			= 212121
+Shiki-Human-Revival_menubar_bg			= 212121
+Shiki-Illustrious-Revival_menubar_bg	= 212121
+Shiki-Noble-Revival_menubar_bg			= 212121
+Shiki-Wine-Revival_menubar_bg			= 212121
+Shiki-Wise-Revival_menubar_bg			= 212121
+
 Shiki-Brave-Revival_selected			= 729fcf
 Shiki-Human-Revival_selected			= faa546
 Shiki-Illustrious-Revival_selected		= f9a1ac
@@ -27,7 +34,7 @@ Shiki-Wine-Revival_selected				= df5757
 Shiki-Wise-Revival_selected				= 97bf60
 
 # xfwm4 is provided by shiki-colors-xfwm, metacity/openbox are not themed
-# xfce-notify is not yet themed as well
+# xfce4-notify is not yet themed as well
 
 all: prepare generate
 
@@ -58,7 +65,7 @@ Shiki-%:
 	sed -i  $@/gtk-2.0/gtkrc $@/gtk-3.0/*.css $@/gtk-3.0/assets/*.svg \
 	        $@/gtk-3.0/apps/*.css           \
 		-e 's/#d64937/#$($@_selected)/g'    \
-		-e 's/#2d2d2d/#212121/g'
+		-e 's/#2d2d2d/#$($@_menubar_bg)/g'
 
 generate:
 	$(foreach COLOR,$(COLORS),make Shiki-$(COLOR);)
