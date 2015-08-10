@@ -109,3 +109,8 @@ uninstall:
 	$(foreach PLANK_THEME,$(PLANK),rm -rf $(DESTDIR)$(PREFIX)/share/plank/$(PLANK_THEME);)
 	$(foreach COLOR,$(COLORS),rm -rf $(DESTDIR)$(PREFIX)/share/themes/Shiki-$(COLOR);)
 	$(foreach WM_THEME,$(WM),rm -rf $(DESTDIR)$(PREFIX)/share/themes/$(WM_THEME);)
+
+sync:
+	git -C $(BASE) pull origin master
+	git add $(BASE)
+	git commit -m 'Synchronize with upstream $(BASE)'
