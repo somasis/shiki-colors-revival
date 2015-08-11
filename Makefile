@@ -98,7 +98,7 @@ clean:
 	rm -rf $(BASE)
 	$(foreach COLOR,$(COLORS),rm -rf Shiki-$(COLOR)/;)
 
-install:
+install: generate
 	mkdir -p $(DESTDIR)$(PREFIX)/share/themes
 	mkdir -p $(DESTDIR)$(PREFIX)/share/plank/themes
 	$(foreach PLANK_THEME,$(PLANK),cp -r plank/$(PLANK_THEME) $(DESTDIR)$(PREFIX)/share/plank/themes/$(PLANK_THEME);)
