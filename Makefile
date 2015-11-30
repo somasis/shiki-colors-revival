@@ -53,7 +53,7 @@ Shiki-Human-Classic_selected			= faa546
 Shiki-Illustrious-Classic_selected		= f9a1ac
 Shiki-Noble-Classic_selected			= ad7fa8
 Shiki-Wine-Classic_selected				= df5757
-Shiki-Wise-Revival_selected				= 97bf60
+Shiki-Wise-Classic_selected				= 97bf60
 
 # xfwm4 is provided by shiki-colors-xfwm, metacity/openbox are not themed
 # xfce4-notify is not yet themed as well
