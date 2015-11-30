@@ -78,10 +78,7 @@ help:
 	@echo "    If you do not want to run \`git submodules update\` during the prepare"
 	@echo "    phase, set \${no_git}; ex. \`no_git=true make prepare\`"
 
-numix-themes:
-	git clone https://github.com/shimmerproject/Numix $(BASE)
-
-prepare: numix-themes
+prepare:
 	[[ "$(no_git)" ]] || git submodule init
 	[[ "$(no_git)" ]] || git submodule update
 	cd $(BASE) && rm -rf xfwm4 metacity-1 openbox-3 xfce-notify-4.0 index.theme
