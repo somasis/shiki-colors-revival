@@ -78,7 +78,10 @@ help:
 	@echo "    If you do not want to run \`git submodules update\` during the prepare"
 	@echo "    phase, set \${no_git}; ex. \`no_git=true make prepare\`"
 
-prepare:
+numix-themes:
+	git clone https://github.com/shimmerproject/Numix $(BASE)
+
+prepare: numix-themes
 	[[ "$(no_git)" ]] || git submodule init
 	[[ "$(no_git)" ]] || git submodule update
 	cd $(BASE) && rm -rf xfwm4 metacity-1 openbox-3 xfce-notify-4.0 index.theme
@@ -87,7 +90,6 @@ Shiki-%:
 	@echo "Generating $@ from $(BASE)..."
 	cp -r $(BASE) $@
 	sed -i  $@/gtk-2.0/gtkrc $@/gtk-3.0/*.css $@/gtk-3.0/assets/*.svg \
-	        $@/gtk-3.0/apps/*.css           \
 		-e 's/#d64937/#$($@_selected)/g'    \
 		-e 's/#2d2d2d/#$($@_menubar_bg)/g'
 
@@ -96,7 +98,10 @@ generate: prepare
 
 clean:
 	rm -rf $(BASE)
-	$(foreach COLOR,$(COLORS),rm -rf Shiki-$(COLOR)/;)
+	@for color in $(COLORS);do \
+		echo "rm -rf Shiki-$$color";	\
+		rm -rf "Shiki-$$color";			\
+	done
 
 install: generate
 	mkdir -p $(DESTDIR)$(PREFIX)/share/themes
