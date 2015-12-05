@@ -80,13 +80,13 @@ help:
 
 prepare:
 	[[ "$(no_git)" ]] || git submodule init
-	[[ "$(no_git)" ]] || git submodule update
+	[[ "$(no_git)" ]] || git submodule update -f
 	cd $(BASE) && rm -rf xfwm4 metacity-1 openbox-3 xfce-notify-4.0 index.theme
 
 Shiki-%:
 	@echo "Generating $@ from $(BASE)..."
 	cp -r $(BASE) $@
-	sed -i  $@/gtk-2.0/gtkrc $@/gtk-3.0/*.css $@/gtk-3.0/assets/*.svg \
+	find $@ -type f -print0 | xargs -0 sed -i   \
 		-e 's/#d64937/#$($@_selected)/g'    \
 		-e 's/#2d2d2d/#$($@_menubar_bg)/g'
 
@@ -112,7 +112,8 @@ uninstall:
 	$(foreach COLOR,$(COLORS),rm -rf $(DESTDIR)$(PREFIX)/share/themes/Shiki-$(COLOR);)
 	$(foreach WM_THEME,$(WM),rm -rf $(DESTDIR)$(PREFIX)/share/themes/$(WM_THEME);)
 
-sync:
+sync: prepare
+	git -C $(BASE) reset --hard
 	git -C $(BASE) pull origin master
 	git add $(BASE)
 	git commit -m 'Synchronize with upstream $(BASE)'
