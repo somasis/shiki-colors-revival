@@ -12,6 +12,8 @@
 # OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
 # PERFORMANCE OF THIS SOFTWARE.
 
+VERSION     =2.0.2
+
 DESTDIR		?= /
 PREFIX		?= /usr
 
@@ -69,6 +71,9 @@ help:
 	@echo "    Shiki-<color>            Generate Shiki-<color>"
 	@echo "    install                  Install themes to $(DESTDIR)$(PREFIX)/share/{plank/,}themes"
 	@echo "    uninstall                Uninstall themes from $(DESTDIR)$(PREFIX)/share/{plank/,}themes"
+	@echo "    dist                     Create a tar suitable for distribution"
+	@echo "    dist-gzip                Create a tar.gz suitable for distribution"
+	@echo "    dist-xz                  Create a tar.xz suitable for distribution"
 	@echo
 	@echo "Base theme: $(BASE)"
 	@echo "Default themes to generate: $(foreach COLOR,$(COLORS),Shiki-$(COLOR))"
@@ -76,7 +81,7 @@ help:
 	@echo
 	@echo "Notes:"
 	@echo "    If you do not want to run \`git submodules update\` during the prepare"
-	@echo "    phase, set \${no_git}; ex. \`no_git=true make prepare\`"
+	@echo "    phase, set ${no_git}; ex. \`no_git=true make prepare\`"
 
 prepare:
 	[[ "$(no_git)" ]] || git submodule init
@@ -94,7 +99,8 @@ generate: prepare
 	$(foreach COLOR,$(COLORS),make Shiki-$(COLOR);)
 
 clean:
-	rm -rf $(BASE)
+	-rm -rf $(BASE)
+	-rm -rf archive-tmp
 	@for color in $(COLORS);do \
 		echo "rm -rf Shiki-$$color";	\
 		rm -rf "Shiki-$$color";			\
@@ -117,3 +123,19 @@ sync: prepare
 	git -C $(BASE) pull origin master
 	git add $(BASE)
 	git commit -m 'Synchronize with upstream $(BASE)'
+
+dist: clean prepare
+	rm -rf shiki-colors-revival-$(VERSION)
+	mkdir shiki-colors-revival-$(VERSION)
+	cp -r Shiki-Colors-* numix-themes plank Makefile README.md shiki-colors-revival-$(VERSION)/
+	find ./shiki-colors-revival-$(VERSION) -name '*.git*' -delete
+	tar cvf shiki-colors-revival-$(VERSION).tar shiki-colors-revival-$(VERSION)/
+	rm -rf shiki-colors-revival-$(VERSION)
+
+dist-gzip: dist
+	gzip -c shiki-colors-revival-$(VERSION).tar > shiki-colors-revival-$(VERSION).tar.gz
+
+dist-xz: dist
+	xz -c shiki-colors-revival-$(VERSION).tar > shiki-colors-revival-$(VERSION).tar.xz
+
+.PHONY: all clean dist dist-gzip dist-xz generate help install prepare sync uninstall
