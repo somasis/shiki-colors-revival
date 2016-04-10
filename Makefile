@@ -12,22 +12,23 @@
 # OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
 # PERFORMANCE OF THIS SOFTWARE.
 
-VERSION     =2.0.2
+VERSION     =2.0.3
 
 DESTDIR		?= /
 PREFIX		?= /usr
 
-BASE		=	numix-themes
-COLORS		=	Brave-Revival Human-Revival Illustrious-Revival			\
-				Noble-Revival Wine-Revival Wise-Revival					\
-				Brave-Classic Human-Classic Illustrious-Classic			\
-				Noble-Classic Wine-Classic Wise-Classic
+TOPDIR      =   $(dir $(realpath $(word $(words $(MAKEFILE_LIST)),$(MAKEFILE_LIST))))
+BASE        =   $(TOPDIR)/numix-themes
+GENERATED   ?=  $(PWD)/generated
+COLORS      =	Brave-Revival Human-Revival Illustrious-Revival         \
+                Noble-Revival Wine-Revival Wise-Revival                 \
+                Brave-Classic Human-Classic Illustrious-Classic         \
+                Noble-Classic Wine-Classic Wise-Classic
 
-WM			=	Shiki-Colors-Classic Shiki-Colors-Classic-EZ 			\
-				Shiki-Colors-Classic-Striped Shiki-Colors-Revival		\
-				Shiki-Colors-Revival-EZ
+WM          =   Shiki-Colors-Classic Shiki-Colors-Classic-EZ            \
+                Shiki-Colors-Revival Shiki-Colors-Revival-EZ
 
-PLANK		=	Shiki-Revival Shiki-Classic Shiki-panel Shiki-platform
+PLANK       =   Shiki-Revival Shiki-Classic Shiki-panel Shiki-platform
 
 Shiki-Brave-Revival_menubar_bg			= 212121
 Shiki-Human-Revival_menubar_bg			= 212121
@@ -60,7 +61,8 @@ Shiki-Wise-Classic_selected				= 97bf60
 # xfwm4 is provided by shiki-colors-xfwm, metacity/openbox are not themed
 # xfce4-notify is not yet themed as well
 
-all: generate
+all: $(GENERATED)
+generate: $(GENERATED)
 
 help:
 	@echo "make targets:"
@@ -71,9 +73,6 @@ help:
 	@echo "    Shiki-<color>            Generate Shiki-<color>"
 	@echo "    install                  Install themes to $(DESTDIR)$(PREFIX)/share/{plank/,}themes"
 	@echo "    uninstall                Uninstall themes from $(DESTDIR)$(PREFIX)/share/{plank/,}themes"
-	@echo "    dist                     Create a tar suitable for distribution"
-	@echo "    dist-gzip                Create a tar.gz suitable for distribution"
-	@echo "    dist-xz                  Create a tar.xz suitable for distribution"
 	@echo
 	@echo "Base theme: $(BASE)"
 	@echo "Default themes to generate: $(foreach COLOR,$(COLORS),Shiki-$(COLOR))"
@@ -86,32 +85,34 @@ help:
 prepare:
 	[[ "$(no_git)" ]] || git submodule init
 	[[ "$(no_git)" ]] || git submodule update -f
-	cd $(BASE) && rm -rf xfwm4 metacity-1 openbox-3 xfce-notify-4.0 index.theme
+	rm -rf $(foreach i,xfwm4 metacity-1 openbox-3 xfce-notify-4.0 index.theme,$(BASE)/$(i))
+	$(MAKE) -C "$(BASE)" install DESTDIR="$(GENERATED)"
+	mv "$(GENERATED)/usr/share/themes/Numix" "$(GENERATED)/Numix"
+	rm -rf "$(GENERATED)/usr"
 
-Shiki-%:
-	@echo "Generating $@ from $(BASE)..."
-	cp -r $(BASE) $@
-	find $@ -type f -print0 | xargs -0 sed -i   \
+Shiki-%: prepare
+	cp -r $(GENERATED)/Numix $(GENERATED)/$@
+	find $(GENERATED)/$@ -type f -print0 | xargs -0 sed -i   \
 		-e 's/#d64937/#$($@_selected)/g'    \
 		-e 's/#2d2d2d/#$($@_menubar_bg)/g'
 
-generate: prepare
-	$(foreach COLOR,$(COLORS),make Shiki-$(COLOR);)
+$(GENERATED): $(foreach COLOR,$(COLORS),Shiki-$(COLOR))
+	$(foreach WM_THEME,$(WM),cp -r $(TOPDIR)/$(WM_THEME) $(GENERATED)/$(WM_THEME);)
+	$(foreach PLANK_THEME,$(PLANK),cp -r $(TOPDIR)/plank/$(PLANK_THEME) $(GENERATED)/plank-$(PLANK_THEME);)
+	touch $(GENERATED)/.success
 
 clean:
 	-rm -rf $(BASE)
-	-rm -rf archive-tmp
-	@for color in $(COLORS);do \
-		echo "rm -rf Shiki-$$color";	\
-		rm -rf "Shiki-$$color";			\
-	done
+	-rm -rf $(GENERATED)
+	-git clean -fdx
 
-install: generate
+install:
+	[ -f "$(GENERATED)/.success" ] || $(MAKE) generate
 	mkdir -p $(DESTDIR)$(PREFIX)/share/themes
 	mkdir -p $(DESTDIR)$(PREFIX)/share/plank/themes
-	$(foreach PLANK_THEME,$(PLANK),cp -r plank/$(PLANK_THEME) $(DESTDIR)$(PREFIX)/share/plank/themes/$(PLANK_THEME);)
-	$(foreach COLOR,$(COLORS),cp -r Shiki-$(COLOR) $(DESTDIR)$(PREFIX)/share/themes/Shiki-$(COLOR);)
-	$(foreach WM_THEME,$(WM),cp -r $(WM_THEME) $(DESTDIR)$(PREFIX)/share/themes/$(WM_THEME);)
+	$(foreach PLANK_THEME,$(PLANK),cp -r $(GENERATED)/plank-$(PLANK_THEME) $(DESTDIR)$(PREFIX)/share/plank/themes/$(PLANK_THEME);)
+	$(foreach COLOR,$(COLORS),cp -r $(GENERATED)/Shiki-$(COLOR) $(DESTDIR)$(PREFIX)/share/themes/Shiki-$(COLOR);)
+	$(foreach WM_THEME,$(WM),cp -r $(GENERATED)/$(WM_THEME) $(DESTDIR)$(PREFIX)/share/themes/$(WM_THEME);)
 
 uninstall:
 	$(foreach PLANK_THEME,$(PLANK),rm -rf $(DESTDIR)$(PREFIX)/share/plank/$(PLANK_THEME);)
@@ -121,21 +122,7 @@ uninstall:
 sync: prepare
 	git -C $(BASE) reset --hard
 	git -C $(BASE) pull origin master
-	git add $(BASE)
-	git commit -m 'Synchronize with upstream $(BASE)'
+	git -C $(TOPDIR) add $(BASE)
+	git -C $(TOPDIR) commit -m 'Synchronize with upstream $(BASE)'
 
-dist: clean prepare
-	rm -rf shiki-colors-revival-$(VERSION)
-	mkdir shiki-colors-revival-$(VERSION)
-	cp -r Shiki-Colors-* numix-themes plank Makefile README.md shiki-colors-revival-$(VERSION)/
-	find ./shiki-colors-revival-$(VERSION) -name '*.git*' -delete
-	tar cvf shiki-colors-revival-$(VERSION).tar shiki-colors-revival-$(VERSION)/
-	rm -rf shiki-colors-revival-$(VERSION)
-
-dist-gzip: dist
-	gzip -c shiki-colors-revival-$(VERSION).tar > shiki-colors-revival-$(VERSION).tar.gz
-
-dist-xz: dist
-	xz -c shiki-colors-revival-$(VERSION).tar > shiki-colors-revival-$(VERSION).tar.xz
-
-.PHONY: all clean dist dist-gzip dist-xz generate help install prepare sync uninstall
+.PHONY: all clean generate help install prepare sync uninstall

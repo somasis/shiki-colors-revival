@@ -4,6 +4,7 @@ Shiki-*-Revival
 Shiki-*-Classic
 !Shiki-Colors-Revival
 !Shiki-Colors-Classic
+/generated
 /*.tar
 /*.tar.gz
 /*.tar.xz
