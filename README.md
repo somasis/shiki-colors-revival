@@ -19,6 +19,8 @@ GPL-3, Xfwm4 and Metacity are GPL-2, Plank themes and build system are ISC)
 - `sed`
 - `git`
 - `make`
+- `ruby` (`gem`, for installing Sass)
+- `scss`
 - `gtk-engine-murrine`, needed for GTK2 themes
 - `xfwm4`, needed for Xfwm4 themes
 - `metacity`, or `marco` (`mutter` might work too) for the Metacity themes
