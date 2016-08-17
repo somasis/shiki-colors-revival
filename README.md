@@ -1,3 +1,7 @@
+**This project is now abandoned. When GNOME developers decide to stop breaking
+things every minor release, maybe then it'll be worth maintaining. But I'm
+done with themes, sorry. Anyone is permitted to fork and maintain this.**
+
 # shiki-colors-revival
 This consists mostly of a script that modifies the original Numix theme's
 files to fit to all of the colors in the GNOME Colors palette.
